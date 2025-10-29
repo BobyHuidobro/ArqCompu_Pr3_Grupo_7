@@ -1,0 +1,45 @@
+{
+    "DESIGN_NAME": "top",
+    "VERILOG_FILES": [
+        "dir::src/main.v",
+        "dir::src/core/computer.v",
+        "dir::src/core/pc.v",
+        "dir::src/core/instruction_memory.v",
+        "dir::src/core/control_unit.v",
+        "dir::src/core/register.v",
+        "dir::src/core/alu.v",
+        "dir::src/core/muxA.v",
+        "dir::src/core/muxB.v",
+        "dir::src/core/mux2.v",
+        "dir::src/core/mux_address.v",
+        "dir::src/core/data_memory.v",
+        "dir::src/core/sevenseg.v"
+    ],
+    "CLOCK_PORT": "i_Clk",
+    "CLOCK_PERIOD": 40.0,
+    
+    "FP_SIZING": "absolute",
+    "DIE_AREA": "0 0 500 500",
+    
+    "FP_PDN_MULTILAYER": false,
+    
+    "PL_TARGET_DENSITY": 0.55,
+    "PL_RANDOM_GLB_PLACEMENT": 1,
+    
+    "GLB_RESIZER_TIMING_OPTIMIZATIONS": true,
+    "PL_RESIZER_DESIGN_OPTIMIZATIONS": true,
+    "PL_RESIZER_TIMING_OPTIMIZATIONS": true,
+    
+    "DIODE_INSERTION_STRATEGY": 3,
+    
+    "ROUTING_CORES": 4,
+    
+    "pdk::sky130A": {
+        "MAX_FANOUT_CONSTRAINT": 10,
+        "SYNTH_MAX_FANOUT": 10,
+        "FP_CORE_UTIL": 45,
+        "scl::sky130_fd_sc_hd": {
+            "CLOCK_PERIOD": 40.0
+        }
+    }
+}

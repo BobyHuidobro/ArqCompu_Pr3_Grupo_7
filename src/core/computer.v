@@ -1,10 +1,14 @@
+// computer.v
+// Core principal de 8 bits – versión corregida con salida de PC visible.
+
 module computer(
     input clk,
     output [7:0] alu_out_bus,
     output [7:0] regA_out_bus,
-    output [7:0] regB_out_bus
+    output [7:0] regB_out_bus,
+    output [7:0] pc_out_bus     // ← se agregó esta salida
 );
-    wire [7:0] pc_out_bus;
+
     wire [14:0] im_out_bus;
     wire [6:0] opcode = im_out_bus[14:8];
     wire [7:0] literal = im_out_bus[7:0];
@@ -20,16 +24,23 @@ module computer(
     wire [7:0] mem_address;
     wire [7:0] mem_data_out;
 
+    // ===== Contador de programa =====
     pc PC(
         .clk(clk),
+        .is_jump(is_jump),
+        .jump_cond(jump_cond),
+        .target_addr(literal),
+        .regA_value(regA_out_bus),
         .pc(pc_out_bus)
     );
 
+    // ===== Memoria de instrucciones =====
     instruction_memory IM(
         .address(pc_out_bus),
         .out(im_out_bus)
     );
 
+    // ===== Unidad de control =====
     control_unit CU(
         .opcode(opcode),
         .alu_op(alu_op),
@@ -44,6 +55,7 @@ module computer(
         .jump_cond(jump_cond)
     );
 
+    // ===== Registros =====
     register regA(
         .clk(clk),
         .data(alu_out_bus),
@@ -58,6 +70,7 @@ module computer(
         .out(regB_out_bus)
     );
 
+    // ===== Multiplexores =====
     muxA muxA_inst(
         .regA(regA_out_bus),
         .regB(regB_out_bus),
@@ -80,6 +93,7 @@ module computer(
         .address(mem_address)
     );
 
+    // ===== Memoria de datos =====
     data_memory DM(
         .clk(clk),
         .address(mem_address),
@@ -88,6 +102,7 @@ module computer(
         .data_out(mem_data_out)
     );
 
+    // ===== ALU =====
     alu ALU(
         .a(muxA_out_bus),
         .b(muxB_out_bus),
